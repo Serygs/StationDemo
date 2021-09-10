@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="Implementation-test-suite.xml" />
+	<munit:test name="getAllStation" doc:id="e4969b21-1e4b-4c22-b842-7e1976ef9783" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="payloadStation" doc:id="62411cc1-125f-4596-89b6-01c30803aa1c" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="payloadStation" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"results": [{
+		"id": 13,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/13/",
+		"name": "Salyut 5",
+		"status": {
+			"id": 2,
+			"name": "De-Orbited"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "1976-06-22",
+		"deorbited": "1988-08-08",
+		"description": "Salyut 5, also known as OPS-3, was a Soviet space station. Launched in 1976 as part of the Salyut programme, it was the third and last Almaz space station to be launched for the Soviet military. Two Soyuz missions visited the station, each manned by two cosmonauts. A third Soyuz mission attempted to visit the station, but failed to dock, whilst a fourth mission was planned but never launched.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 63,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+			"name": "Russian Federal Space Agency (ROSCOSMOS)",
+			"abbrev": "RFSA"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25205_image_20190318095611.png"
+	},
+       
+        {
+		"id": 10,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/10/",
+		"name": "Salyut 2",
+		"status": {
+			"id": 2,
+			"name": "De-Orbited"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "1973-04-03",
+		"deorbited": "1973-05-28",
+		"description": "Salyut 2 (OPS-1) (Russian: Салют-2 meaning Salute 2) was a Soviet space station which was launched in 1973 as part of the Salyut programme. It was the first Almaz military space station to fly. Within two weeks of its launch, the station had lost attitude control and depressurised, leaving it unusable. Its orbit decayed and it re-entered the atmosphere on 28 May 1973, without any crews having visited it.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 63,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+			"name": "Russian Federal Space Agency (ROSCOSMOS)",
+			"abbrev": "RFSA"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25202_image_20190217082304.jpeg"
+	}]
+}
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="94232caf-089d-40d8-9853-0d39ba0bb558" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="thespacedevs" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="fbc4c659-a204-4756-88c5-09c8bb97bca4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.payloadStation]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getStation" doc:id="3c05744d-7eed-4119-b8cf-8957c2bb53d0" name="getStation"/>
+			<ee:transform doc:name="StationGet" doc:id="15145ae2-5b8f-4070-800b-5d7a96ed2130">
+				<ee:message>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="StationGet" ><![CDATA[%dw 2.0
+output application/json
+---
+[{
+	"id": 10,
+	"url": "https://ll.thespacedevs.com/2.2.0/spacestation/10/",
+	"name": "Salyut 2",
+	"status_id": "2",
+	"status_name": "De-Orbited",
+	"type": "Government",
+	"founded": "1973-04-03",
+	"deorbited": "1973-05-28",
+	"description": "Salyut 2 (OPS-1) (Russian: Салют-2 meaning Salute 2) was a Soviet space station which was launched in 1973 as part of the Salyut programme. It was the first Almaz military space station to fly. Within two weeks of its launch, the station had lost attitude control and depressurised, leaving it unusable. Its orbit decayed and it re-entered the atmosphere on 28 May 1973, without any crews having visited it.",
+	"orbit": "Low Earth Orbit",
+	"owners": ["Russian Federal Space Agency (ROSCOSMOS)"],
+	"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25202_image_20190217082304.jpeg"
+},
+    
+    {
+	"id": 13,
+	"url": "https://ll.thespacedevs.com/2.2.0/spacestation/13/",
+	"name": "Salyut 5",
+	"status_id": "2",
+	"status_name": "De-Orbited",
+	"type": "Government",
+	"founded": "1976-06-22",
+	"deorbited": "1988-08-08",
+	"description": "Salyut 5, also known as OPS-3, was a Soviet space station. Launched in 1976 as part of the Salyut programme, it was the third and last Almaz space station to be launched for the Soviet military. Two Soyuz missions visited the station, each manned by two cosmonauts. A third Soyuz mission attempted to visit the station, but failed to dock, whilst a fourth mission was planned but never launched.",
+	"orbit": "Low Earth Orbit",
+	"owners": ["Russian Federal Space Agency (ROSCOSMOS)"],
+	"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25205_image_20190318095611.png"
+}]
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="376da340-c7d6-498a-83b4-fcee51234103" is="#[MunitTools::equalTo(vars.StationGet)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getStationByStatus" doc:id="7c844c5c-4a34-42bc-a216-01a1f495739e" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="payload2" doc:id="f0665fb6-4c20-4a04-92ee-c6be4e0f374f" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="payload2" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "count": 15,
+    "next": "https://ll.thespacedevs.com/2.2.0/spacestation/?limit=10&offset=10",
+    "previous": null,
+    "results": [
+        {
+            "id": 13,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/13/",
+            "name": "Salyut 5",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1976-06-22",
+            "deorbited": "1988-08-08",
+            "description": "Salyut 5, also known as OPS-3, was a Soviet space station. Launched in 1976 as part of the Salyut programme, it was the third and last Almaz space station to be launched for the Soviet military. Two Soyuz missions visited the station, each manned by two cosmonauts. A third Soyuz mission attempted to visit the station, but failed to dock, whilst a fourth mission was planned but never launched.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25205_image_20190318095611.png"
+        },
+        {
+            "id": 14,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/14/",
+            "name": "Salyut 6",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1977-09-29",
+            "deorbited": "1982-07-29",
+            "description": "Salyut 6, also known as DOS-5, was a Soviet orbital space station, the eighth flown as part of the Salyut programme. Launched on 29 September 1977 by a Proton rocket, the station was the first of the \"second-generation\" type of space station. Salyut 6 possessed several revolutionary advances over the earlier Soviet space stations, which it nevertheless resembled in overall design. These included the addition of a second docking port, a new main propulsion system and the station's primary scientific instrument, the BST-1M multispectral telescope. The addition of the second docking port made crew handovers and station resupply by unmanned Progress freighters possible for the first time.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25206_image_20190318095930.jpg"
+        },
+        {
+            "id": 10,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/10/",
+            "name": "Salyut 2",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1973-04-03",
+            "deorbited": "1973-05-28",
+            "description": "Salyut 2 (OPS-1) (Russian: Салют-2 meaning Salute 2) was a Soviet space station which was launched in 1973 as part of the Salyut programme. It was the first Almaz military space station to fly. Within two weeks of its launch, the station had lost attitude control and depressurised, leaving it unusable. Its orbit decayed and it re-entered the atmosphere on 28 May 1973, without any crews having visited it.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25202_image_20190217082304.jpeg"
+        },
+        {
+            "id": 6,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/6/",
+            "name": "Skylab",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1973-05-14",
+            "deorbited": "1979-07-11",
+            "description": "Skylab was a United States space station launched and operated by NASA, and occupied for about 24 weeks between May 1973 and February 1974 – the only space station the U.S. has operated exclusively. In 1979 it fell back to Earth amid huge worldwide media attention. Skylab included a workshop, a solar observatory, and other systems necessary for crew survival and scientific experiments. It was launched unmanned by a modified Saturn V rocket, with a weight of 170,000 pounds (77,000 kg). Lifting Skylab into low earth orbit was the final mission and launch of a Saturn V rocket (famous for carrying the manned Moon landing missions). Three missions delivered three-astronaut crews in the Apollo command and service module (Apollo CSM), launched by the smaller Saturn IB rocket. For the final two manned missions to Skylab, a backup Apollo CSM/Saturn IB was assembled and made ready in case an in-orbit rescue mission was needed, but this backup vehicle was never flown.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 44,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/44/",
+                    "name": "National Aeronautics and Space Administration",
+                    "abbrev": "NASA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg"
+        },
+        {
+            "id": 7,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/7/",
+            "name": "Tiangong 1",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "2011-09-29",
+            "deorbited": "2018-04-02",
+            "description": "Tiangong-1 (Chinese: 天宫一号; pinyin: Tiāngōng yīhào; literally: \"Heavenly Palace 1\" or \"Celestial Palace 1\") was China's first prototype space station. It orbited Earth from September 2011 to April 2018, serving as both a manned laboratory and an experimental testbed to demonstrate orbital rendezvous and docking capabilities during its two years of active operational life.\r\n\r\nTiangong-1 was visited by a series of Shenzhou spacecraft during its two-year operational lifetime. The first of these, the unmanned Shenzhou 8, successfully docked with the module in November 2011, while the manned Shenzhou 9 mission docked in June 2012. A third and final mission to Tiangong-1, the manned Shenzhou 10, docked in June 2013. The manned missions to Tiangong-1 were notable for including China's first female astronauts, Liu Yang and Wang Yaping.\r\n\r\nOn 21 March 2016, after a lifespan extended by two years, the China Manned Space Engineering Office announced that Tiangong-1 had officially ended its service. They went on to state that the telemetry link with Tiangong-1 had been lost. A couple of months later, amateur satellite trackers watching Tiangong-1 found that China's space agency had lost control of the station. In September, after conceding they had lost control over the station, officials speculated that the station would re-enter and burn up in the atmosphere late in 2017. According to the China Manned Space Engineering Office, Tiangong-1 started reentry over the southern Pacific Ocean, northwest of Tahiti, on 2 April 2018 at 00:15 UTC.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 17,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/17/",
+                    "name": "China National Space Administration",
+                    "abbrev": "CNSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/tiangong25201_image_20190215013038.jpeg"
+        },
+        {
+            "id": 5,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/5/",
+            "name": "Mir",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1986-02-20",
+            "deorbited": "2001-03-23",
+            "description": "Mir was a space station that operated in low Earth orbit from 1986 to 2001, operated by the Soviet Union and later by Russia. Mir was the first modular space station and was assembled in orbit from 1986 to 1996.\r\n\r\nThe station served as a microgravity research laboratory in which crews conducted experiments in biology, human biology, physics, astronomy, meteorology and spacecraft systems with a goal of developing technologies required for permanent occupation of space.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/mir_image_20190218204938.jpeg"
+        },
+        {
+            "id": 17,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/17/",
+            "name": "Genesis II",
+            "status": {
+                "id": 3,
+                "name": "Abandoned"
+            },
+            "type": {
+                "id": 3,
+                "name": "Commercial"
+            },
+            "founded": "2007-06-28",
+            "deorbited": null,
+            "description": "Genesis II is the second of two experimental inflatable space habitats. It is a one-third scale model of Bigelow Aerospace's BA330 Module.\r\n\r\nGenesis II became inactive after the avionics systems stopped working 2.5 years into it's lifetime.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 140,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/140/",
+                    "name": "Bigelow Aerospace",
+                    "abbrev": "Bigelow"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/genesis_ii_image_20200221101958.jpg"
+        },
+        {
+            "id": 9,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/9/",
+            "name": "Salyut 1",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1971-04-19",
+            "deorbited": "1971-10-11",
+            "description": "Salyut 1 (DOS-1) was the first space station of any kind, launched into low Earth orbit by the Soviet Union on April 19, 1971. The Salyut program followed this with five more successful launches out of seven more stations. The final module of the program, Zvezda (DOS-8) became the core of the Russian segment of the International Space Station and remains in orbit.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25201_image_20190217072508.jpeg"
+        },
+        {
+            "id": 12,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/12/",
+            "name": "Salyut 4",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1974-12-26",
+            "deorbited": "1977-02-03",
+            "description": "Salyut 4 represented the second phase of DOS civilian space station. Although the basic design of Salyut 1 was retained, it switched to three large solar panels mounted on the forward module rather than its predecessor's four small panels on the docking module and engine compartment, presumably to generate more power. It had an interior floor area of 34.8 sq. The pitch of the station was 2 X 59 N, yaw was 2 X 59 N and roll was 2 X 20 N. The electric System produced an average of 2.00 kW of power. It had 2,000 kg of scientific equipment alongside two sets of three solar panels each and was equipped with the Delta Navigation System which was a new autonomous navigation system that calculates orbital elements without assistance from ground. It was powered by KTDU-66 thrusters. Instrumentation",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25204_image_20190310081804.jpg"
+        },
+        {
+            "id": 18,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/18/",
+            "name": "Tiangong space station",
+            "status": {
+                "id": 1,
+                "name": "Active"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "2021-04-29",
+            "deorbited": null,
+            "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 88,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/88/",
+                    "name": "China Aerospace Science and Technology Corporation",
+                    "abbrev": "CASC"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/chinese_space_s_image_20210429041040.png"
+        }
+    ]
+}
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d0e1aed6-06a3-48e8-ab5e-c0c70715132f" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="thespacedevs" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="fbc4c659-a204-4756-88c5-09c8bb97bca4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.payload2]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="540300a3-58f5-46c5-9d9e-b2460401739c" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{status:"1"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to getStation" doc:id="4c9c0430-9bdf-4de8-a960-cb6a93ecdffa" name="getStation"/>
+			<ee:transform doc:name="expected" doc:id="cf886ebe-952a-4124-a4ac-c9c4320e5058" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="expected" ><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "id": 18,
+        "url": "https://ll.thespacedevs.com/2.2.0/spacestation/18/",
+        "name": "Tiangong space station",
+        "status_id": "1",
+        "status_name": "Active",
+        "type": "Government",
+        "founded": "2021-04-29",
+        "deorbited": null,
+        "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+        "orbit": "Low Earth Orbit",
+        "owners": [
+            "China Aerospace Science and Technology Corporation"
+        ],
+        "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/chinese_space_s_image_20210429041040.png"
+    }
+]]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="4b493aaf-bd48-427b-88b5-2bf67deae71c" is="#[MunitTools::equalTo(vars.expected)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getStationBySName" doc:id="d9da065b-ba40-4bca-b958-f9767bc9e150" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="payload3" doc:id="be202e4b-6b3d-494f-ac51-b2f27e26e3d6" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="payload3" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "count": 15,
+    "next": "https://ll.thespacedevs.com/2.2.0/spacestation/?limit=10&offset=10",
+    "previous": null,
+    "results": [
+        {
+            "id": 13,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/13/",
+            "name": "Salyut 5",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1976-06-22",
+            "deorbited": "1988-08-08",
+            "description": "Salyut 5, also known as OPS-3, was a Soviet space station. Launched in 1976 as part of the Salyut programme, it was the third and last Almaz space station to be launched for the Soviet military. Two Soyuz missions visited the station, each manned by two cosmonauts. A third Soyuz mission attempted to visit the station, but failed to dock, whilst a fourth mission was planned but never launched.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25205_image_20190318095611.png"
+        },
+        {
+            "id": 14,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/14/",
+            "name": "Salyut 6",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1977-09-29",
+            "deorbited": "1982-07-29",
+            "description": "Salyut 6, also known as DOS-5, was a Soviet orbital space station, the eighth flown as part of the Salyut programme. Launched on 29 September 1977 by a Proton rocket, the station was the first of the \"second-generation\" type of space station. Salyut 6 possessed several revolutionary advances over the earlier Soviet space stations, which it nevertheless resembled in overall design. These included the addition of a second docking port, a new main propulsion system and the station's primary scientific instrument, the BST-1M multispectral telescope. The addition of the second docking port made crew handovers and station resupply by unmanned Progress freighters possible for the first time.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25206_image_20190318095930.jpg"
+        },
+        {
+            "id": 10,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/10/",
+            "name": "Salyut 2",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1973-04-03",
+            "deorbited": "1973-05-28",
+            "description": "Salyut 2 (OPS-1) (Russian: Салют-2 meaning Salute 2) was a Soviet space station which was launched in 1973 as part of the Salyut programme. It was the first Almaz military space station to fly. Within two weeks of its launch, the station had lost attitude control and depressurised, leaving it unusable. Its orbit decayed and it re-entered the atmosphere on 28 May 1973, without any crews having visited it.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25202_image_20190217082304.jpeg"
+        },
+        {
+            "id": 6,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/6/",
+            "name": "Skylab",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1973-05-14",
+            "deorbited": "1979-07-11",
+            "description": "Skylab was a United States space station launched and operated by NASA, and occupied for about 24 weeks between May 1973 and February 1974 – the only space station the U.S. has operated exclusively. In 1979 it fell back to Earth amid huge worldwide media attention. Skylab included a workshop, a solar observatory, and other systems necessary for crew survival and scientific experiments. It was launched unmanned by a modified Saturn V rocket, with a weight of 170,000 pounds (77,000 kg). Lifting Skylab into low earth orbit was the final mission and launch of a Saturn V rocket (famous for carrying the manned Moon landing missions). Three missions delivered three-astronaut crews in the Apollo command and service module (Apollo CSM), launched by the smaller Saturn IB rocket. For the final two manned missions to Skylab, a backup Apollo CSM/Saturn IB was assembled and made ready in case an in-orbit rescue mission was needed, but this backup vehicle was never flown.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 44,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/44/",
+                    "name": "National Aeronautics and Space Administration",
+                    "abbrev": "NASA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg"
+        },
+        {
+            "id": 7,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/7/",
+            "name": "Tiangong 1",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "2011-09-29",
+            "deorbited": "2018-04-02",
+            "description": "Tiangong-1 (Chinese: 天宫一号; pinyin: Tiāngōng yīhào; literally: \"Heavenly Palace 1\" or \"Celestial Palace 1\") was China's first prototype space station. It orbited Earth from September 2011 to April 2018, serving as both a manned laboratory and an experimental testbed to demonstrate orbital rendezvous and docking capabilities during its two years of active operational life.\r\n\r\nTiangong-1 was visited by a series of Shenzhou spacecraft during its two-year operational lifetime. The first of these, the unmanned Shenzhou 8, successfully docked with the module in November 2011, while the manned Shenzhou 9 mission docked in June 2012. A third and final mission to Tiangong-1, the manned Shenzhou 10, docked in June 2013. The manned missions to Tiangong-1 were notable for including China's first female astronauts, Liu Yang and Wang Yaping.\r\n\r\nOn 21 March 2016, after a lifespan extended by two years, the China Manned Space Engineering Office announced that Tiangong-1 had officially ended its service. They went on to state that the telemetry link with Tiangong-1 had been lost. A couple of months later, amateur satellite trackers watching Tiangong-1 found that China's space agency had lost control of the station. In September, after conceding they had lost control over the station, officials speculated that the station would re-enter and burn up in the atmosphere late in 2017. According to the China Manned Space Engineering Office, Tiangong-1 started reentry over the southern Pacific Ocean, northwest of Tahiti, on 2 April 2018 at 00:15 UTC.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 17,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/17/",
+                    "name": "China National Space Administration",
+                    "abbrev": "CNSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/tiangong25201_image_20190215013038.jpeg"
+        },
+        {
+            "id": 5,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/5/",
+            "name": "Mir",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1986-02-20",
+            "deorbited": "2001-03-23",
+            "description": "Mir was a space station that operated in low Earth orbit from 1986 to 2001, operated by the Soviet Union and later by Russia. Mir was the first modular space station and was assembled in orbit from 1986 to 1996.\r\n\r\nThe station served as a microgravity research laboratory in which crews conducted experiments in biology, human biology, physics, astronomy, meteorology and spacecraft systems with a goal of developing technologies required for permanent occupation of space.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/mir_image_20190218204938.jpeg"
+        },
+        {
+            "id": 17,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/17/",
+            "name": "Genesis II",
+            "status": {
+                "id": 3,
+                "name": "Abandoned"
+            },
+            "type": {
+                "id": 3,
+                "name": "Commercial"
+            },
+            "founded": "2007-06-28",
+            "deorbited": null,
+            "description": "Genesis II is the second of two experimental inflatable space habitats. It is a one-third scale model of Bigelow Aerospace's BA330 Module.\r\n\r\nGenesis II became inactive after the avionics systems stopped working 2.5 years into it's lifetime.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 140,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/140/",
+                    "name": "Bigelow Aerospace",
+                    "abbrev": "Bigelow"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/genesis_ii_image_20200221101958.jpg"
+        },
+        {
+            "id": 9,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/9/",
+            "name": "Salyut 1",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1971-04-19",
+            "deorbited": "1971-10-11",
+            "description": "Salyut 1 (DOS-1) was the first space station of any kind, launched into low Earth orbit by the Soviet Union on April 19, 1971. The Salyut program followed this with five more successful launches out of seven more stations. The final module of the program, Zvezda (DOS-8) became the core of the Russian segment of the International Space Station and remains in orbit.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25201_image_20190217072508.jpeg"
+        },
+        {
+            "id": 12,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/12/",
+            "name": "Salyut 4",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "1974-12-26",
+            "deorbited": "1977-02-03",
+            "description": "Salyut 4 represented the second phase of DOS civilian space station. Although the basic design of Salyut 1 was retained, it switched to three large solar panels mounted on the forward module rather than its predecessor's four small panels on the docking module and engine compartment, presumably to generate more power. It had an interior floor area of 34.8 sq. The pitch of the station was 2 X 59 N, yaw was 2 X 59 N and roll was 2 X 20 N. The electric System produced an average of 2.00 kW of power. It had 2,000 kg of scientific equipment alongside two sets of three solar panels each and was equipped with the Delta Navigation System which was a new autonomous navigation system that calculates orbital elements without assistance from ground. It was powered by KTDU-66 thrusters. Instrumentation",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 63,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+                    "name": "Russian Federal Space Agency (ROSCOSMOS)",
+                    "abbrev": "RFSA"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25204_image_20190310081804.jpg"
+        },
+        {
+            "id": 18,
+            "url": "https://ll.thespacedevs.com/2.2.0/spacestation/18/",
+            "name": "Tiangong space station",
+            "status": {
+                "id": 1,
+                "name": "Active"
+            },
+            "type": {
+                "id": 2,
+                "name": "Government"
+            },
+            "founded": "2021-04-29",
+            "deorbited": null,
+            "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+            "orbit": "Low Earth Orbit",
+            "owners": [
+                {
+                    "id": 88,
+                    "url": "https://ll.thespacedevs.com/2.2.0/agencies/88/",
+                    "name": "China Aerospace Science and Technology Corporation",
+                    "abbrev": "CASC"
+                }
+            ],
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/chinese_space_s_image_20210429041040.png"
+        }
+    ]
+}
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="77a9aa68-e814-4983-b879-94614923c304" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="thespacedevs" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="fbc4c659-a204-4756-88c5-09c8bb97bca4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.payload3]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="472ca0eb-19a3-453a-86a5-8dee24dbcab3" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{name:"Tiangong"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to getStation" doc:id="d743e963-6ce7-4b57-919f-61af8e0bfd6b" name="getStation"/>
+			<ee:transform doc:name="expected3" doc:id="67550185-e56c-4ecb-a7d6-7ebe75b6b0aa" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="expected3" ><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "id": 7,
+        "url": "https://ll.thespacedevs.com/2.2.0/spacestation/7/",
+        "name": "Tiangong 1",
+        "status_id": "2",
+        "status_name": "De-Orbited",
+        "type": "Government",
+        "founded": "2011-09-29",
+        "deorbited": "2018-04-02",
+        "description": "Tiangong-1 (Chinese: 天宫一号; pinyin: Tiāngōng yīhào; literally: \"Heavenly Palace 1\" or \"Celestial Palace 1\") was China's first prototype space station. It orbited Earth from September 2011 to April 2018, serving as both a manned laboratory and an experimental testbed to demonstrate orbital rendezvous and docking capabilities during its two years of active operational life.\r\n\r\nTiangong-1 was visited by a series of Shenzhou spacecraft during its two-year operational lifetime. The first of these, the unmanned Shenzhou 8, successfully docked with the module in November 2011, while the manned Shenzhou 9 mission docked in June 2012. A third and final mission to Tiangong-1, the manned Shenzhou 10, docked in June 2013. The manned missions to Tiangong-1 were notable for including China's first female astronauts, Liu Yang and Wang Yaping.\r\n\r\nOn 21 March 2016, after a lifespan extended by two years, the China Manned Space Engineering Office announced that Tiangong-1 had officially ended its service. They went on to state that the telemetry link with Tiangong-1 had been lost. A couple of months later, amateur satellite trackers watching Tiangong-1 found that China's space agency had lost control of the station. In September, after conceding they had lost control over the station, officials speculated that the station would re-enter and burn up in the atmosphere late in 2017. According to the China Manned Space Engineering Office, Tiangong-1 started reentry over the southern Pacific Ocean, northwest of Tahiti, on 2 April 2018 at 00:15 UTC.",
+        "orbit": "Low Earth Orbit",
+        "owners": [
+            "China National Space Administration"
+        ],
+        "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/tiangong25201_image_20190215013038.jpeg"
+    },
+    {
+        "id": 18,
+        "url": "https://ll.thespacedevs.com/2.2.0/spacestation/18/",
+        "name": "Tiangong space station",
+        "status_id": "1",
+        "status_name": "Active",
+        "type": "Government",
+        "founded": "2021-04-29",
+        "deorbited": null,
+        "description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+        "orbit": "Low Earth Orbit",
+        "owners": [
+            "China Aerospace Science and Technology Corporation"
+        ],
+        "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/chinese_space_s_image_20210429041040.png"
+    }
+]]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d50bcd70-5225-4fed-b110-aa8d374b73aa" is="#[MunitTools::equalTo(vars.expected3)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getStationByStatusAndName" doc:id="e1d50080-e38e-41d4-8a18-7b32d161124c" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="payload3" doc:id="127c55f5-83c1-41d6-8815-7d0d8c17223a" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="payload3" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"results": [{
+		"id": 7,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/7/",
+		"name": "Tiangong 1",
+		"status": {
+			"id": 2,
+			"name": "De-Orbited"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "2011-09-29",
+		"deorbited": "2018-04-02",
+		"description": "Tiangong-1 (Chinese: 天宫一号; pinyin: Tiāngōng yīhào; literally: \"Heavenly Palace 1\" or \"Celestial Palace 1\") was China's first prototype space station. It orbited Earth from September 2011 to April 2018, serving as both a manned laboratory and an experimental testbed to demonstrate orbital rendezvous and docking capabilities during its two years of active operational life.\r\n\r\nTiangong-1 was visited by a series of Shenzhou spacecraft during its two-year operational lifetime. The first of these, the unmanned Shenzhou 8, successfully docked with the module in November 2011, while the manned Shenzhou 9 mission docked in June 2012. A third and final mission to Tiangong-1, the manned Shenzhou 10, docked in June 2013. The manned missions to Tiangong-1 were notable for including China's first female astronauts, Liu Yang and Wang Yaping.\r\n\r\nOn 21 March 2016, after a lifespan extended by two years, the China Manned Space Engineering Office announced that Tiangong-1 had officially ended its service. They went on to state that the telemetry link with Tiangong-1 had been lost. A couple of months later, amateur satellite trackers watching Tiangong-1 found that China's space agency had lost control of the station. In September, after conceding they had lost control over the station, officials speculated that the station would re-enter and burn up in the atmosphere late in 2017. According to the China Manned Space Engineering Office, Tiangong-1 started reentry over the southern Pacific Ocean, northwest of Tahiti, on 2 April 2018 at 00:15 UTC.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 17,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/17/",
+			"name": "China National Space Administration",
+			"abbrev": "CNSA"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/tiangong25201_image_20190215013038.jpeg"
+	},
+        {
+		"id": 5,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/5/",
+		"name": "Mir",
+		"status": {
+			"id": 2,
+			"name": "De-Orbited"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "1986-02-20",
+		"deorbited": "2001-03-23",
+		"description": "Mir was a space station that operated in low Earth orbit from 1986 to 2001, operated by the Soviet Union and later by Russia. Mir was the first modular space station and was assembled in orbit from 1986 to 1996.\r\n\r\nThe station served as a microgravity research laboratory in which crews conducted experiments in biology, human biology, physics, astronomy, meteorology and spacecraft systems with a goal of developing technologies required for permanent occupation of space.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 63,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+			"name": "Russian Federal Space Agency (ROSCOSMOS)",
+			"abbrev": "RFSA"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/mir_image_20190218204938.jpeg"
+	},
+        {
+		"id": 17,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/17/",
+		"name": "Genesis II",
+		"status": {
+			"id": 3,
+			"name": "Abandoned"
+		},
+		"type": {
+			"id": 3,
+			"name": "Commercial"
+		},
+		"founded": "2007-06-28",
+		"deorbited": null,
+		"description": "Genesis II is the second of two experimental inflatable space habitats. It is a one-third scale model of Bigelow Aerospace's BA330 Module.\r\n\r\nGenesis II became inactive after the avionics systems stopped working 2.5 years into it's lifetime.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 140,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/140/",
+			"name": "Bigelow Aerospace",
+			"abbrev": "Bigelow"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/genesis_ii_image_20200221101958.jpg"
+	},
+        {
+		"id": 9,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/9/",
+		"name": "Salyut 1",
+		"status": {
+			"id": 2,
+			"name": "De-Orbited"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "1971-04-19",
+		"deorbited": "1971-10-11",
+		"description": "Salyut 1 (DOS-1) was the first space station of any kind, launched into low Earth orbit by the Soviet Union on April 19, 1971. The Salyut program followed this with five more successful launches out of seven more stations. The final module of the program, Zvezda (DOS-8) became the core of the Russian segment of the International Space Station and remains in orbit.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 63,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+			"name": "Russian Federal Space Agency (ROSCOSMOS)",
+			"abbrev": "RFSA"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25201_image_20190217072508.jpeg"
+	},
+        {
+		"id": 12,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/12/",
+		"name": "Salyut 4",
+		"status": {
+			"id": 2,
+			"name": "De-Orbited"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "1974-12-26",
+		"deorbited": "1977-02-03",
+		"description": "Salyut 4 represented the second phase of DOS civilian space station. Although the basic design of Salyut 1 was retained, it switched to three large solar panels mounted on the forward module rather than its predecessor's four small panels on the docking module and engine compartment, presumably to generate more power. It had an interior floor area of 34.8 sq. The pitch of the station was 2 X 59 N, yaw was 2 X 59 N and roll was 2 X 20 N. The electric System produced an average of 2.00 kW of power. It had 2,000 kg of scientific equipment alongside two sets of three solar panels each and was equipped with the Delta Navigation System which was a new autonomous navigation system that calculates orbital elements without assistance from ground. It was powered by KTDU-66 thrusters. Instrumentation",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 63,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/63/",
+			"name": "Russian Federal Space Agency (ROSCOSMOS)",
+			"abbrev": "RFSA"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25204_image_20190310081804.jpg"
+	},
+        {
+		"id": 18,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/18/",
+		"name": "Tiangong space station",
+		"status": {
+			"id": 1,
+			"name": "Active"
+		},
+		"type": {
+			"id": 2,
+			"name": "Government"
+		},
+		"founded": "2021-04-29",
+		"deorbited": null,
+		"description": "The Tiangong space station is a space station placed in Low Earth orbit between 340 and 450 km above the surface. It will be roughly one-fifth the mass of the International Space Station and about the size of the Mir space station.",
+		"orbit": "Low Earth Orbit",
+		"owners": [{
+			"id": 88,
+			"url": "https://ll.thespacedevs.com/2.2.0/agencies/88/",
+			"name": "China Aerospace Science and Technology Corporation",
+			"abbrev": "CASC"
+		}],
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/chinese_space_s_image_20210429041040.png"
+	}]
+}
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b4bb4422-3646-4b75-b65d-3c4c139e0966" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="GET" attributeName="method" />
+					<munit-tools:with-attribute whereValue="thespacedevs" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="fbc4c659-a204-4756-88c5-09c8bb97bca4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.payload3]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="e24c1ac3-07fe-4fba-b2d3-1f0cc346b8a5" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{name:"Tiangong",status:"2"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to getStation" doc:id="1f2056f7-6b05-42e8-a3ed-c56a9860711b" name="getStation"/>
+			<ee:transform doc:name="expected3" doc:id="0c8cd99b-5645-4f8f-879b-b672ab65af50" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="expected3" ><![CDATA[%dw 2.0
+output application/json
+---
+[{
+	"id": 7,
+	"url": "https://ll.thespacedevs.com/2.2.0/spacestation/7/",
+	"name": "Tiangong 1",
+	"status_id": "2",
+	"status_name": "De-Orbited",
+	"type": "Government",
+	"founded": "2011-09-29",
+	"deorbited": "2018-04-02",
+	"description": "Tiangong-1 (Chinese: 天宫一号; pinyin: Tiāngōng yīhào; literally: \"Heavenly Palace 1\" or \"Celestial Palace 1\") was China's first prototype space station. It orbited Earth from September 2011 to April 2018, serving as both a manned laboratory and an experimental testbed to demonstrate orbital rendezvous and docking capabilities during its two years of active operational life.\r\n\r\nTiangong-1 was visited by a series of Shenzhou spacecraft during its two-year operational lifetime. The first of these, the unmanned Shenzhou 8, successfully docked with the module in November 2011, while the manned Shenzhou 9 mission docked in June 2012. A third and final mission to Tiangong-1, the manned Shenzhou 10, docked in June 2013. The manned missions to Tiangong-1 were notable for including China's first female astronauts, Liu Yang and Wang Yaping.\r\n\r\nOn 21 March 2016, after a lifespan extended by two years, the China Manned Space Engineering Office announced that Tiangong-1 had officially ended its service. They went on to state that the telemetry link with Tiangong-1 had been lost. A couple of months later, amateur satellite trackers watching Tiangong-1 found that China's space agency had lost control of the station. In September, after conceding they had lost control over the station, officials speculated that the station would re-enter and burn up in the atmosphere late in 2017. According to the China Manned Space Engineering Office, Tiangong-1 started reentry over the southern Pacific Ocean, northwest of Tahiti, on 2 April 2018 at 00:15 UTC.",
+	"orbit": "Low Earth Orbit",
+	"owners": ["China National Space Administration"],
+	"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/tiangong25201_image_20190215013038.jpeg"
+}]]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="2feb2481-2b66-4c1e-9293-106ae8cb726e" is="#[MunitTools::equalTo(vars.expected3)]" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="APP:TOO_MANY_REQUEST" doc:id="625de813-512e-4263-9511-8cfad024d5bd" description="Test" expectedErrorType="APP:TOO_MANY_REQUEST">
+			<munit:behavior >
+			<munit-tools:mock-when doc:name="APP:TOO_MANY_REQUEST" doc:id="09c0cfbc-8bab-4baa-9abc-f945e3da6a1d" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="0a8259f5-56ad-4ba8-8767-1e27247dd4bf" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="getStation" attributeName="name" />
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="0a8259f5-56ad-4ba8-8767-1e27247dd4bf" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="getStation" attributeName="name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:TOO_MANY_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+				<flow-ref doc:name="get:\station:spacestation-config" doc:id="1bc3e292-ef4f-4ed0-93bb-2eefc937a710" name="get:\station:spacestation-config" />
+			</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b02805a0-e296-4f41-8880-21ac61ebf1fa" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("429")]'/>
+		</munit:validation>
+		</munit:test>
+	<munit:test name="APP:BAD_NAME" doc:id="6fdba63c-4be2-4382-9d55-be3c0fce6628" description="Test" expectedErrorType="APP:BAD_NAME">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="APP:BAD_NAME" doc:id="e57d1b1d-6d4b-480b-8d2d-c87d7eaeb531" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="0a8259f5-56ad-4ba8-8767-1e27247dd4bf" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="getStation" attributeName="name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:BAD_NAME" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="get:\station:spacestation-config" doc:id="44567ff5-fcd3-4d40-aa4e-d8f8b1712ae2" name="get:\station:spacestation-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="65e00604-08f7-4485-856a-ac747305e497" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("400")]' />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="HTTP:CONNECTIVITY" doc:id="83c9c735-c1eb-4725-a759-eb0a65dcfc93" description="Test" expectedErrorType="HTTP:CONNECTIVITY">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="HTTP:CONNECTIVITY" doc:id="a8b64d42-bbb5-428d-bcbe-dbbfbe7fd653" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="0a8259f5-56ad-4ba8-8767-1e27247dd4bf" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="getStation" attributeName="name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="get:\station:spacestation-config" doc:id="1edd2bb3-2ac0-443e-a8a4-b04bf0ce48a6" name="get:\station:spacestation-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="b1e57e4c-268f-4391-b58e-4ed9872206f8" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("500")]' />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="APIKIT:NOT_FOUND" doc:id="337ea957-bcff-47f2-a1a4-fb247ad72702" description="Test" expectedErrorType="APIKIT:NOT_FOUND" ignore="true">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="APIKIT:NOT_FOUND" doc:id="9569d407-e732-434d-98f3-599410450352" processor="apikit:console">
+					<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="spacestation-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="get:\station:spacestation-config" doc:id="af3b12cf-6bb7-4d3c-a5b1-90a78f7cff4b" name="get:\station:spacestation-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="c4d4e863-b4ae-47f2-844d-292959b4b34f" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("403")]' />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="APIKIT:BAD_REQUEST" doc:id="507940f4-0645-4764-a312-c62f136285e4" description="Test" expectedErrorType="APIKIT:BAD_REQUEST" ignore="true">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="APIKIT:BAD_REQUEST" doc:id="810ae254-12a8-4584-921d-56b0aacacb01" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="spacestation-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="get:\station:spacestation-config" doc:id="2c53e882-11b1-4f1a-a561-d556cd721e97" name="get:\station:spacestation-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="16316930-c47b-424b-a572-045ff8838bf7" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("400")]' />
+			</munit:validation>
+		</munit:test>
+
+</mule>

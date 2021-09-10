@@ -1,0 +1,17 @@
+[
+	{
+		"id": 13,
+		"url": "https://ll.thespacedevs.com/2.2.0/spacestation/13/?format=json",
+		"name": "Salyut 5",
+		"status_id": "1",
+		"status_name": "De-Orbited",
+		"type": "Government",
+		"founded": "1976-06-22",
+		"deorbited": "1988-08-08",
+		"description": "Salyut 5, also known as OPS-3, was a Soviet space station. Launched in 1976 as part of the Salyut programme, it was the third and last Almaz space station to be launched for the Soviet military. Two Soyuz missions visited the station, each manned by two cosmonauts. A third Soyuz mission attempted to visit the station, but failed to dock, whilst a fourth mission was planned but never launched.",
+		"orbit": "Low Earth Orbit",
+		"owners": "Russian Federal Space Agency (ROSCOSMOS)",
+		"image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/salyut25205_image_20190318095611.png"
+	}
+]
+

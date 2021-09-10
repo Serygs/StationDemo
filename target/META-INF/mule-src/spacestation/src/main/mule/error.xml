@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="errorError_Handler" doc:id="df899d3e-1a51-4d83-bdf7-fd29bda0b32e" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="Copy_of_On Error Propagate" doc:id="24f936c4-3b7b-4541-8e61-26fc80c98a71" type="HTTP:CONNECTIVITY" >
+			<ee:transform doc:name="bad connection" doc:id="8170adec-5699-4e87-a10e-c5f526d12da9" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message : error.description,
+	message : "Please contact with admin"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="500" doc:name="httpStatus" doc:id="eba2d830-bd72-4ea3-bf95-59402f6d5145" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="31cda60d-356c-4647-ab30-f80490a2c877" type="APP:TOO_MANY_REQUEST">
+			<ee:transform doc:name="Transform Message" doc:id="6951ad13-8ec5-46ae-9c8e-35cd68444734" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Too many requests . Please make one later"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="429" doc:name="httpStatus" doc:id="04ba055a-f94c-42be-828c-8ee16001fb3c" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="78502cc2-c090-4642-9a58-739e30da1182" type="APP:BAD_NAME">
+			<ee:transform doc:name="Transform Message" doc:id="4f0bbdb0-ce01-423c-960a-22be73d13730" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message : "Invalid queryParams ",
+	status: vars.status,
+	name: vars.name
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="400" doc:name="httpStatus" doc:id="58435413-d56c-4ab7-a98b-752243d37df7" variableName="httpStatus" />
+		</on-error-propagate>
+	</error-handler>
+</mule>

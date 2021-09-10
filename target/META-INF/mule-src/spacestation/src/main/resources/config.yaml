@@ -1,0 +1,12 @@
+
+http:
+  port: "8081"
+  
+validation:
+  status:
+    message: "Invalid status id , avaiable statuses: [1,2,3]"
+    
+station:
+  host: "https://ll.thespacedevs.com/2.2.0/spacestation"
+  hostid: "https://ll.thespacedevs.com/2.2.0/spacestation/{id}"
+  

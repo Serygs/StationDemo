@@ -1,0 +1,11 @@
+{
+  "sampleData": {
+    "6663d4de-6c9d-439d-8776-831f83e80622": {
+      "payload": "sample_data/java.dwl"
+    },
+    "53cf910e-f146-4f31-b7dc-5837a5b68a78": {
+      "vars-name": "sample_data/defaultnulltype.dwl",
+      "vars-status": "sample_data/defaultnulltype_1.dwl"
+    }
+  }
+}

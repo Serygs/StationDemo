@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	
+	<sub-flow name="TheSpaceDev" doc:id="3bd50009-e5a7-478a-864d-62096d2c0a81" >
+		<http:request method="GET" doc:name="thespacedevs" doc:id="fbc4c659-a204-4756-88c5-09c8bb97bca4" outputMimeType="application/json" url="${station.host}">
+			<error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="APP:TOO_MANY_REQUEST" />
+				</http:request>
+	</sub-flow>
+	<sub-flow name="SetStatusAndName" doc:id="463f3fd3-ac03-4ded-bc0c-be12c4b17a48" >
+		<set-variable doc:name="set status" doc:id="f865b756-f80d-4c13-abe7-e48c3e344c50" variableName="status" value="#[message.attributes.queryParams.status]"/>
+		<set-variable value='#[message.attributes.queryParams."name"]' doc:name="Set Name" doc:id="1804163f-98b2-46c8-bdad-0cb7cac12d8d" variableName="name" />
+	</sub-flow>
+	<sub-flow name="OrderById" doc:id="7596b01f-870c-4afb-88f8-5f07607c05fd" >
+		<ee:transform doc:name="Order By Id" doc:id="ca70a0cf-e7a7-4c64-b00e-07d0ea506416">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload orderBy ((item, index) -> item.id)]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+	</sub-flow>
+	<flow name="getStation" doc:id="6b2ecd65-21f0-4365-97d5-cae4248e103b" >
+		<logger level="INFO" doc:name="First Log Message" doc:id="8e4936f5-0a77-4957-925d-4edef39d4108" message="Get /station start" />
+		<flow-ref doc:name="SetStatusAndName" doc:id="1d5c43d1-7198-447b-ad5a-fd42e7ebada3" name="SetStatusAndName" />
+		<flow-ref doc:name="TheSpaceDev" doc:id="f652dc39-4d06-4635-8f01-7945a3be3a3a" name="TheSpaceDev" />
+		<ee:transform doc:name="Payload to output" doc:id="f687f90a-1fbf-4800-8c35-757c0780cf8e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.results map ( result , indexOfResult ) -> {
+	id: result.id,
+	url: result.url,
+	name: result.name,
+	status_id: result.status.id as String,
+	status_name: result.status.name,
+	"type": result."type".name,
+	founded: result.founded,
+	deorbited: result.deorbited,
+	description: result.description,
+	orbit: result.orbit,
+	owners: result.owners.name,
+	image_url: result.image_url
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Filter" doc:id="53cf910e-f146-4f31-b7dc-5837a5b68a78" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+if ( vars.name == null and vars.status != null )
+ payload filter(item,index)->(item."status_id" == vars.status)
+else if ( vars.name != null and vars.status==null )
+ payload filter((item,index) -> (item."name" splitBy(" "))[0] == vars.name)
+else if ( vars.status != null and vars.name != null )
+ payload filter((item,index) -> ((item."status_id" == vars.status) and  (item."name" splitBy(" "))[0] == vars.name))
+else payload
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="e028a05a-570d-4933-9fb7-abe315432e6e" >
+			<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:BAD_NAME" />
+		</validation:is-not-empty-collection>
+		<flow-ref doc:name="Order by ID" doc:id="458b1e69-7b69-4699-8828-d5024a944be7" name="OrderById" />
+		<logger level="INFO" doc:name="Last Log Message" doc:id="12c3b816-75d4-4d25-a619-3dbc0a2ad7c2" message="Get /station finish" />
+		<error-handler ref="errorError_Handler" />
+	</flow>
+</mule>

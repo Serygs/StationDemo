@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_7596b01f_870c_4afb_88f8_5f07607c05fd_Input_Variables_status = Null
+
