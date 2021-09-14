@@ -10,6 +10,11 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 	<sub-flow name="TheSpaceDev" doc:id="3bd50009-e5a7-478a-864d-62096d2c0a81" >
 		<http:request method="GET" doc:name="thespacedevs" doc:id="fbc4c659-a204-4756-88c5-09c8bb97bca4" outputMimeType="application/json" url="${station.host}">
 			<error-mapping sourceType="HTTP:TOO_MANY_REQUESTS" targetType="APP:TOO_MANY_REQUEST" />
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"limit" : 20
+}]]]></http:query-params>
 				</http:request>
 	</sub-flow>
 	<sub-flow name="SetStatusAndName" doc:id="463f3fd3-ac03-4ded-bc0c-be12c4b17a48" >

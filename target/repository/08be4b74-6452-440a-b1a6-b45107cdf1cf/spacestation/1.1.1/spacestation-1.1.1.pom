@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>08be4b74-6452-440a-b1a6-b45107cdf1cf</groupId>
+  <artifactId>spacestation</artifactId>
+  <version>1.1.1</version>
+  <name>SpaceStation</name>
+  <properties>
+    <classifier>raml</classifier>
+    <main>spacestation.raml</main>
+    <originalFormatVersion>1.0</originalFormatVersion>
+    <apiVersion>v1</apiVersion>
+    <projectId>027c6242-3dee-4e14-8715-244f24151c1f</projectId>
+    <branchId>master</branchId>
+    <commitId>c090dbb5cc3a353c3a3fb1d4f1a78b406f207c17</commitId>
+    <type>rest-api</type>
+    <mainFile>spacestation.raml</mainFile>
+  </properties>
+  <repositories>
+    <repository>
+      <id>anypoint-exchange</id>
+      <url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+    </repository>
+  </repositories>
+</project>
